@@ -12,9 +12,13 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 export SHELL=/bin/bash
-export NPM_CONFIG_PREFIX="$HOME/.npm-global"
-export PATH="$NPM_CONFIG_PREFIX/bin:$PATH"
-mkdir -p "$NPM_CONFIG_PREFIX"
-chown -R server:server "$NPM_CONFIG_PREFIX"
+export NVM_DIR="$HOME/.config/nvm"
+mkdir -p "$NVM_DIR"
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+	. "$NVM_DIR/nvm.sh"
+fi
+if ! grep -Fq 'NVM_DIR="$HOME/.config/nvm"' "$HOME/.bashrc"; then
+	printf '\nexport NVM_DIR="$HOME/.config/nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"\n' >> "$HOME/.bashrc"
+fi
 cd /workspace
 exec gosu server /usr/bin/ttyd --port "$PORT" --interface 0.0.0.0 --credential "$TTYD_USERNAME:$TTYD_PASSWORD" --writable tmux new -A -s main
