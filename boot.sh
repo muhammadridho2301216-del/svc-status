@@ -14,6 +14,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export SHELL=/bin/bash
 export NVM_DIR="$HOME/.config/nvm"
 mkdir -p "$NVM_DIR"
+chown -R server:server "$NVM_DIR"
 if [[ -s "$NVM_DIR/nvm.sh" ]]; then
 	. "$NVM_DIR/nvm.sh"
 fi
